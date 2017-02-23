@@ -45,10 +45,10 @@ local function res_user_callback(extra, success, result) -- /info <username> fun
   local um_hash = 'msgs:'..result.id..':'..extra.chat2
   user_info_msgs = tonumber(redis:get(um_hash) or 0)
   text = text..'Total messages : '..user_info_msgs..'\n\n'
-  text = text..'@BeyondTeam'
+  text = text..'@Storent'
   send_msg(extra.receiver, text, ok_cb,  true)
   else
-	send_msg(extra.receiver, ' Username not found.', ok_cb, false)
+	send_msg(extra.receiver, ' نام کاربری پیدا نشد.', ok_cb, false)
   end
 end
 
@@ -162,39 +162,39 @@ local function run(msg, matches)
    else
    Username = '----'
    end
-   local text = 'First name : '..(msg.from.first_name or '----')..'\n'
-   local text = text..'Last name : '..(msg.from.last_name or '----')..'\n---------------------------------\n'	
-   local text = text..'Username : '..Username..'\n'
-   local text = text..'ID : '..msg.from.id..'\n---------------------------------\n'
+   local text = 'نام : '..(msg.from.first_name or '----')..'\n'
+   local text = text..'نام خانوادگی : '..(msg.from.last_name or '----')..'\n---------------------------------\n'	
+   local text = text..'نام کاربری : '..Username..'\n'
+   local text = text..'آیدی : '..msg.from.id..'\n---------------------------------\n'
    local hash = 'rank:'..msg.to.id..':variables'
 	if hash then
 	  local value = redis:hget(hash, msg.from.id)
 	  if not value then
 		if msg.from.id == tonumber(Arian) then
-		 text = text..'Rank : Executive Admin \n'
+		 text = text..'مقام : مدیر اجرایی \n'
 		elseif is_sudo(msg) then
-		 text = text..'Rank : Admin \n'
+		 text = text..'مقام: مدیر \n'
 		elseif is_owner(msg) then
-		 text = text..'Rank : Owner \n'
+		 text = text..'مقام: خریدار \n'
 		elseif is_momod(msg) then
-		 text = text..'Rank :Moderator \n'
+		 text = text..'مقام:مدیر \n'
 		else
-		 text = text..'Rank : Member \n'
+		 text = text..'مقام : عضوعادی \n'
 		end
 	  else
-	   text = text..'Rank : '..value..'\n'
+	   text = text..'مقام: '..value..'\n'
 	  end
 	end
 	 local uhash = 'user:'..msg.from.id
  	 local user = redis:hgetall(uhash)
   	 local um_hash = 'msgs:'..msg.from.id..':'..msg.to.id
 	 user_info_msgs = tonumber(redis:get(um_hash) or 0)
-	 text = text..'Total messages : '..user_info_msgs..'\n---------------------------------'
+	 text = text..'تعداد کل پیام ها: '..user_info_msgs..'\n---------------------------------'
     if msg.to.type == 'chat' then
-	 text = text..'Group name : '..msg.to.title..'\n\n'
-     text = text..'Group ID : '..msg.to.id
+	 text = text..'نام گروه: '..msg.to.title..'\n\n'
+     text = text..'آیدی گروه: '..msg.to.id
     end
-	text = text..'\nGroup name : '..msg.to.title..' \nGroup ID : '..msg.to.id..'\n---------------------------------\n@NECCBOT'
+	text = text..'\nنام گروه: '..msg.to.title..' \nآیدی گروه: '..msg.to.id..'\n---------------------------------\n@Storent'
     return send_msg(receiver, text, ok_cb, true)
     end
   end
