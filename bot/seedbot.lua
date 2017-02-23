@@ -264,7 +264,7 @@ function create_config( )
     },
     sudo_users = {269421935,0,0,0,tonumber(our_id)},--Sudo users
     moderation = {data = 'data/moderation.json'},
-    about_text = [[Teleseed v4
+    about_text = [[storent.ir v4.3
 An advanced administration bot based on TG-CLI written in Lua
 
 https://github.com/Tarfand-pro/Tarfand
