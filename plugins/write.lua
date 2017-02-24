@@ -180,18 +180,18 @@ local function run(msg, matches)
 
 		table.insert(result, text)
 	end
-	local result_text = "Your Text : "..matches[2].."\nDesign With 100 Fonts :"..tostring(#fonts).."\n\n"
+	local result_text = "متن شما: "..matches[2].."\nطراحی شده با استفاده از 100 روش مختلف:"..tostring(#fonts).."\n\n"
 	a=0
 	for v=1,#result do
 		a=a+1
 		result_text = result_text..a.."- "..result[a].."\n\n"
 	end
-	return result_text.."@vva_vva"
+	return result_text.."@Storent"
 end
 
 return {
 	description = "Fantasy Writer",
-	usagehtm = '<tr><td align="center">write متن</td><td align="right">با استفاده از این پلاگین میتوانید متون خود را با فونت های متنوع و زیبایی طراحی کنید. حد اکثر کاراکتر های مجاز 20 عدد میباشد و فقط میتوانید از حروف انگلیسی و اعداد استفاده کنید</td></tr>',
+	usagehtm = '<tr><td align="center">write متن</td><td align="right">با استفاده از این ربات میتوانید متون خود را با فونت های متنوع و زیبایی طراحی کنید. حد اکثر کاراکتر های مجاز 20 عدد میباشد و فقط میتوانید از حروف انگلیسی و اعداد استفاده کنید</td></tr>',
 	usage = {"write [text] : زیبا نویسی",},
 	patterns = {
 		"^([#/!]write) (.*)",
