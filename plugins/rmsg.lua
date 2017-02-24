@@ -5,7 +5,7 @@ local function history(extra, suc, result)
   if tonumber(extra.con) == #result then 
     send_msg(extra.chatid, '"'..#result..'" last msgs cleaned!', ok_cb, false) 
   else 
-    send_msg(extra.chatid, 'messages cleaned!', ok_cb, false) 
+    send_msg(extra.chatid, 'پیام های گروه پاکسازی شد!', ok_cb, false) 
   end 
 end 
 local function run(msg, matches) 
@@ -16,10 +16,10 @@ local function run(msg, matches)
       end 
       get_history(msg.to.peer_id, matches[2] + 1 , history , {chatid = msg.to.peer_id, con = matches[2]}) 
     else 
-      return "only for the supergroups!" 
+      return "فقط در سوپرگروه ها امکان پذیر است!" 
     end 
   else 
-    return "only for he owner!" 
+    return "متاسفانه از شما دستور نمی گیرم!" 
   end 
 end 
 
