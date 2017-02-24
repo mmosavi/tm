@@ -1922,7 +1922,7 @@ local function run(msg, matches)
 				return
 			end
 			if not is_owner(msg) then
-				return "Only owner/admin can promote"
+				return "فقط مدیر یا خریدار میتواند فردی را ارتقا مقام دهند"
 			end
 			if type(msg.reply_id) ~= "nil" then
 				local cbreply_extra = {
@@ -2048,7 +2048,7 @@ local function run(msg, matches)
 			data[tostring(msg.to.id)]['settings']['set_photo'] = 'waiting'
 			save_data(_config.moderation.data, data)
 			savelog(msg.to.id, name_log.." ["..msg.from.id.."] started setting new SuperGroup photo")
-			return 'Please send the new group photo now'
+			return 'لطفا برای تنظیم تصویر پروفایل گروه عکس جدید را ارسال کنید.'
 		end
 
 		if matches[1] == 'clean' then
@@ -2056,7 +2056,7 @@ local function run(msg, matches)
 				return
 			end
 			if not is_momod(msg) then
-				return "Only owner can clean"
+				return "فقط مدیر میتواند پاکسازی کند"
 			end
 			if matches[2] == 'modlist' then
 				if next(data[tostring(msg.to.id)]['moderators']) == nil then
@@ -2067,7 +2067,7 @@ local function run(msg, matches)
 					save_data(_config.moderation.data, data)
 				end
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] cleaned modlist")
-				return 'Modlist has been cleaned'
+				return 'لیست معاونین پاکسازی شد'
 			end
 			if matches[2] == 'rules' then
 				local data_cat = 'rules'
@@ -2077,7 +2077,7 @@ local function run(msg, matches)
 				data[tostring(msg.to.id)][data_cat] = nil
 				save_data(_config.moderation.data, data)
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] cleaned rules")
-				return 'Rules have been cleaned'
+				return 'قوانین پاکسازی شد'
 			end
 			if matches[2] == 'about' then
 				local receiver = get_receiver(msg)
@@ -2090,13 +2090,13 @@ local function run(msg, matches)
 				save_data(_config.moderation.data, data)
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] cleaned about")
 				channel_set_about(receiver, about_text, ok_cb, false)
-				return "About has been cleaned"
+				return "توضیحات پاکسازی شد"
 			end
 			if matches[2] == 'silentlist' then
 				chat_id = msg.to.id
 				local hash =  'mute_user:'..chat_id
 					redis:del(hash)
-				return "silentlist Cleaned"
+				return "لیست افراد سایلنت شده پاکسازی شد"
 			end
 			if matches[2] == 'username' and is_admin1(msg) then
 				local function ok_username_cb (extra, success, result)
@@ -2404,14 +2404,14 @@ local function run(msg, matches)
 			if not is_momod(msg) then
 				return
 			end
-			if tonumber(matches[2]) < 1 or tonumber(matches[2]) > 200 then
-				return "Wrong number,range is [1-200]"
+			if tonumber(matches[2]) < 5 or tonumber(matches[2]) > 200 then
+				return "عدد وارد شده صحیح نیست؛ لطفا عددی بین 5 تا 200 وارد کنید"
 			end
 			local flood_max = matches[2]
 			data[tostring(msg.to.id)]['settings']['flood_msg_max'] = flood_max
 			save_data(_config.moderation.data, data)
 			savelog(msg.to.id, name_log.." ["..msg.from.id.."] set flood to ["..matches[2].."]")
-			return 'Flood has been set to: '..matches[2]
+			return 'میزان حساسیت تنظیم شد روی: '..matches[2]
 		end
 		if matches[1] == 'public' and is_momod(msg) then
 			local target = msg.to.id
@@ -2432,9 +2432,9 @@ local function run(msg, matches)
 				if not is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: mute "..msg_type)
 					mute(chat_id, msg_type)
-					return msg_type.." has been muted"
+					return msg_type.." ممنوع شد"
 				else
-					return "SuperGroup mute "..msg_type.." is already on"
+					return "ارسال "..msg_type.." در این گروه ممنوع شده است"
 				end
 			end
 			if matches[2] == 'photo' then
@@ -2442,9 +2442,9 @@ local function run(msg, matches)
 				if not is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: mute "..msg_type)
 					mute(chat_id, msg_type)
-					return msg_type.." has been muted"
+					return msg_type.." ممنوع شد"
 				else
-					return "SuperGroup mute "..msg_type.." is already on"
+					return "ارسال "..msg_type.." در این گروه ممنوع شده است"
 				end
 			end
 			if matches[2] == 'video' then
@@ -2452,9 +2452,9 @@ local function run(msg, matches)
 				if not is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: mute "..msg_type)
 					mute(chat_id, msg_type)
-					return msg_type.." has been muted"
+					return msg_type.." ممنوع شد"
 				else
-					return "SuperGroup mute "..msg_type.." is already on"
+					return "ارسال "..msg_type.." در این گروه ممنوع شده است"
 				end
 			end
 			if matches[2] == 'gifs' then
@@ -2462,9 +2462,9 @@ local function run(msg, matches)
 				if not is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: mute "..msg_type)
 					mute(chat_id, msg_type)
-					return msg_type.." have been muted"
+					return msg_type.." ممنوع شد"
 				else
-					return "SuperGroup mute "..msg_type.." is already on"
+					return "ارسال "..msg_type.." در این گروه ممنوع شده است"
 				end
 			end
 			if matches[2] == 'documents' then
@@ -2472,9 +2472,9 @@ local function run(msg, matches)
 				if not is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: mute "..msg_type)
 					mute(chat_id, msg_type)
-					return msg_type.." have been muted"
+					return msg_type.." ممنوع شد"
 				else
-					return "SuperGroup mute "..msg_type.." is already on"
+					return "ارسال "..msg_type.." در این گروه ممنوع شده است"
 				end
 			end
 			if matches[2] == 'text' then
@@ -2482,9 +2482,9 @@ local function run(msg, matches)
 				if not is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: mute "..msg_type)
 					mute(chat_id, msg_type)
-					return msg_type.." has been muted"
+					return msg_type.." ممنوع شد"
 				else
-					return "Mute "..msg_type.." is already on"
+					return "ارسال پیام متنی در این گروه ممنوع شده است"
 				end
 			end
 			if matches[2] == 'all' then
@@ -2492,9 +2492,9 @@ local function run(msg, matches)
 				if not is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: mute "..msg_type)
 					mute(chat_id, msg_type)
-					return "Mute "..msg_type.."  has been enabled"
+					return "ارسال هرچیزی در گروه ممنوع شد"
 				else
-					return "Mute "..msg_type.." is already on"
+					return "ارسال هرچیزی در گروه ممنوع شده است"
 				end
 			end
 		end
@@ -2505,9 +2505,9 @@ local function run(msg, matches)
 				if is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: unmute "..msg_type)
 					unmute(chat_id, msg_type)
-					return msg_type.." has been unmuted"
+					return msg_type.." مجاز شد"
 				else
-					return "Mute "..msg_type.." is already off"
+					return "ارسال "..msg_type.." در این گروه مجاز است"
 				end
 			end
 			if matches[2] == 'photo' then
@@ -2515,9 +2515,9 @@ local function run(msg, matches)
 				if is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: unmute "..msg_type)
 					unmute(chat_id, msg_type)
-					return msg_type.." has been unmuted"
+					return msg_type.." مجاز شد"
 				else
-					return "Mute "..msg_type.." is already off"
+					return "ارسال "..msg_type.." در این گروه مجاز است"
 				end
 			end
 			if matches[2] == 'video' then
@@ -2525,9 +2525,9 @@ local function run(msg, matches)
 				if is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: unmute "..msg_type)
 					unmute(chat_id, msg_type)
-					return msg_type.." has been unmuted"
+					return msg_type.." مجاز شد"
 				else
-					return "Mute "..msg_type.." is already off"
+					return "ارسال "..msg_type.." در این گروه مجاز است"
 				end
 			end
 			if matches[2] == 'gifs' then
@@ -2535,9 +2535,9 @@ local function run(msg, matches)
 				if is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: unmute "..msg_type)
 					unmute(chat_id, msg_type)
-					return msg_type.." have been unmuted"
+					return msg_type.." مجاز شد"
 				else
-					return "Mute "..msg_type.." is already off"
+					return "ارسال "..msg_type.." در این گروه مجاز است"
 				end
 			end
 			if matches[2] == 'documents' then
@@ -2545,9 +2545,9 @@ local function run(msg, matches)
 				if is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: unmute "..msg_type)
 					unmute(chat_id, msg_type)
-					return msg_type.." have been unmuted"
+					return msg_type.." مجاز است"
 				else
-					return "Mute "..msg_type.." is already off"
+					return "ارسال "..msg_type.." در این گروه مجاز است"
 				end
 			end
 			if matches[2] == 'text' then
@@ -2555,9 +2555,9 @@ local function run(msg, matches)
 				if is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: unmute message")
 					unmute(chat_id, msg_type)
-					return msg_type.." has been unmuted"
+					return msg_type.." مجاز شد"
 				else
-					return "Mute text is already off"
+					return "ارسال پیام در این گروه مجاز است"
 				end
 			end
 			if matches[2] == 'all' then
@@ -2565,9 +2565,9 @@ local function run(msg, matches)
 				if is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: unmute "..msg_type)
 					unmute(chat_id, msg_type)
-					return "Mute "..msg_type.." has been disabled"
+					return "ارسال هر چیزی در گروه مجاز شد"
 				else
-					return "Mute "..msg_type.." is already disabled"
+					return "ارسال هرچیزی در این گروه مجاز است"
 				end
 			end
 		end
@@ -2586,11 +2586,11 @@ local function run(msg, matches)
 				if is_muted_user(chat_id, user_id) then
 					unmute_user(chat_id, user_id)
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] removed ["..user_id.."] from the muted users list")
-					return "["..user_id.."] removed from the muted users list"
+					return "["..user_id.."] از لیست افراد ساکت شده حذف شد"
 				elseif is_momod(msg) then
 					mute_user(chat_id, user_id)
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] added ["..user_id.."] to the muted users list")
-					return "["..user_id.."] added to the muted user list"
+					return "["..user_id.."] به لیست افراد ساکت شده اضافه شد"
 				end
 			elseif matches[1] == "silent" or matches[1] == "unsilent" and not string.match(matches[2], '^%d+$') then
 				local receiver = get_receiver(msg)
@@ -2628,7 +2628,7 @@ local function run(msg, matches)
 		end
 
 		if matches[1] == 'help' and not is_owner(msg) then
-			text = "Send /superhelp in private @ElementTG Or wait for group owner"
+			text = "لطفا دستور superhelp! را در چت خصوصی @SPMTeem ارسال کنید؛ یا اگر مدیر هستید میتوانید این دستور را در گروه خود ارسال کنید.r"
 			reply_msg(msg.id, text, ok_cb, false)
 		elseif matches[1] == 'help' and is_owner(msg) then
 			local name_log = user_print_name(msg.from)
