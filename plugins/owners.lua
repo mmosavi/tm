@@ -2,12 +2,12 @@ local function lock_group_namemod(msg, data, target)
   local group_name_set = data[tostring(target)]['settings']['set_name']
   local group_name_lock = data[tostring(target)]['settings']['lock_name']
   if group_name_lock == 'yes' then
-    return 'Group name is already locked'
+    return 'نام گروه قفل شد'
   else
     data[tostring(target)]['settings']['lock_name'] = 'yes'
     save_data(_config.moderation.data, data)
     rename_chat('chat#id'..target, group_name_set, ok_cb, false)
-  return 'Group name has been locked'
+  return 'نام گروه قفل شد'
   end
 end
 
@@ -15,88 +15,88 @@ local function unlock_group_namemod(msg, data, target)
   local group_name_set = data[tostring(target)]['settings']['set_name']
   local group_name_lock = data[tostring(target)]['settings']['lock_name']
   if group_name_lock == 'no' then
-    return 'Group name is already unlocked'
+    return 'قفل نام گروه غیرفعال شد'
   else
     data[tostring(target)]['settings']['lock_name'] = 'no'
     save_data(_config.moderation.data, data)
-  return 'Group name has been unlocked'
+  return 'قفل نام گروه غیرفعال شد'
   end
 end
 
 local function lock_group_floodmod(msg, data, target)
   local group_flood_lock = data[tostring(target)]['settings']['flood']
   if group_flood_lock == 'yes' then
-    return 'Group flood is locked'
+    return 'حساسیت فعال شد'
   else
     data[tostring(target)]['settings']['flood'] = 'yes'
     save_data(_config.moderation.data, data)
-  return 'Group flood has been locked'
+  return 'حساسیت فعال شد'
   end
 end
 
 local function unlock_group_floodmod(msg, data, target)
   local group_flood_lock = data[tostring(target)]['settings']['flood']
   if group_flood_lock == 'no' then
-    return 'Group flood is not locked'
+    return 'حساسیت غیرفعال شد (هشدار)'
   else
     data[tostring(target)]['settings']['flood'] = 'no'
     save_data(_config.moderation.data, data)
-  return 'Group flood has been unlocked'
+  return 'حساسیت غیرفعال شد (هشدار)'
   end
 end
 
 local function lock_group_membermod(msg, data, target)
   local group_member_lock = data[tostring(target)]['settings']['lock_member']
   if group_member_lock == 'yes' then
-    return 'Group members are already locked'
+    return 'هشدار: اعضا قفل شدند'
   else
     data[tostring(target)]['settings']['lock_member'] = 'yes'
     save_data(_config.moderation.data, data)
   end
-  return 'Group members has been locked'
+  return 'هشدار: اعضا قفل شدند'
 end
 
 local function unlock_group_membermod(msg, data, target)
   local group_member_lock = data[tostring(target)]['settings']['lock_member']
   if group_member_lock == 'no' then
-    return 'Group members are not locked'
+    return 'قفل اعضا غیرفعال شد'
   else
     data[tostring(target)]['settings']['lock_member'] = 'no'
     save_data(_config.moderation.data, data)
-  return 'Group members has been unlocked'
+  return 'قفل اعضا غیرفعال شد'
   end
 end
 
 local function unlock_group_photomod(msg, data, target)
   local group_photo_lock = data[tostring(target)]['settings']['lock_photo']
   if group_photo_lock == 'no' then
-      return 'Group photo is not locked'
+      return 'هشدار: قفل عکس پروفایل گروه غیرفعال است'
   else
       data[tostring(target)]['settings']['lock_photo'] = 'no'
       save_data(_config.moderation.data, data)
-  return 'Group photo has been unlocked'
+  return 'هشدار: قفل عکس پروفایل گروه غیرفعال است'
   end
 end
 
 local function lock_group_arabic(msg, data, target)
   local group_arabic_lock = data[tostring(target)]['settings']['lock_arabic']
   if group_arabic_lock == 'yes' then
-    return 'Arabic is already locked'
+    return 'زبان عربی و فارسی ممنوع شد'
   else
     data[tostring(target)]['settings']['lock_arabic'] = 'yes'
     save_data(_config.moderation.data, data)
-    return 'Arabic has been locked'
+    return 'زبان فارسی و عربی ممنوع شد'
   end
 end
 
 local function unlock_group_arabic(msg, data, target)
   local group_arabic_lock = data[tostring(target)]['settings']['lock_arabic']
   if group_arabic_lock == 'no' then
-    return 'Arabic/Persian is already unlocked'
+    return 'زبان عربی و فارسی مجاز شد'
   else
     data[tostring(target)]['settings']['lock_arabic'] = 'no'
     save_data(_config.moderation.data, data)
-    return 'Arabic/Persian has been unlocked'
+    return 'زبان عربی و فارسی مجاز شد'
   end
 end
 
