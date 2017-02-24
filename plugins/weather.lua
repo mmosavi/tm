@@ -23,11 +23,11 @@ local function run(msg, matches)
 		elseif jtab.weather[1].main == "Clouds" then
 			status = "ابري"
 		elseif jtab.weather[1].main == "Extreme" then
-			status = "-------"
+			status = "خیلی"
 		elseif jtab.weather[1].main == "Additional" then
-			status = "-------"
+			status = "اضافی"
 		else
-			status = "-------"
+			status = "دیتا در دسترس نیست"
 		end
 		local F1,C1 = temps(jtab.main.temp)
 		local F2,C2 = temps(jtab.main.temp_min)
@@ -36,12 +36,12 @@ local function run(msg, matches)
 		if jtab.rain then
 			rain = jtab.rain["3h"].." ميليمتر"
 		else
-			rain = "-----"
+			rain = "دیتا در دسترس نیست"
 		end
 		if jtab.snow then
 			snow = jtab.snow["3h"].." ميليمتر"
 		else
-			snow = "-----"
+			snow = "دیتا در دسترس نیست"
 		end
 		today = "هم اکنون دماي هوا در "..jtab.name.."\n"
 		.."     "..C1.."° درجه سانتيگراد (سلسيوس)\n"
@@ -78,11 +78,11 @@ local function run(msg, matches)
 			elseif jtab.list[i].weather[1].main == "Clouds" then
 				status = "ابري"
 			elseif jtab.list[i].weather[1].main == "Extreme" then
-				status = "-------"
+				status = "خیلی"
 			elseif jtab.list[i].weather[1].main == "Additional" then
-				status = "-------"
+				status = "اضافی"
 			else
-				status = "-------"
+				status = "دیتا دردسرس نیست"
 			end
 			local file = io.open("./file/weatherIcon/"..jtab.list[i].weather[1].icon..".char")
 			if file then
@@ -105,7 +105,7 @@ local function run(msg, matches)
 			after = after.."- "..day..status.." ميباشد. "..icon.."\n🔺C"..C2.."° \n🔻C"..C1.."° \n"
 		end
 		
-		return today.."وضعيت آب و هوا در سه روز آينده:\n"..after.."\n-------------------------------\n@vva_vva"
+		return today.."وضعيت آب و هوا در سه روز آينده:\n"..after.."\n-------------------------------\n@Storent"
 	else
 		return "مکان وارد شده صحيح نيست"
 	end
@@ -113,7 +113,7 @@ end
 
 return {
 	description = "Weather Status",
-	usagehtm = '<tr><td align="center">weather شهر</td><td align="right">اين پلاگين به شما اين امکان را ميدهد که به کاملترين شکل ممکن از وضعيت آب و هواي شهر مورد نظر آگاه شويد همپنين اطلاعات آب و هواي پنجج روز آينده نيز اراه ميشود. دقت کنيد نام شهر را لاتين وارد کنيد</td></tr>',
+	usagehtm = '<tr><td align="center">weather شهر</td><td align="right">اين ربات به شما اين امکان را ميدهد که به کاملترين شکل ممکن از وضعيت آب و هواي شهر مورد نظر آگاه شويد همپنين اطلاعات آب و هواي پنجج روز آينده نيز اراه ميشود. دقت کنيد نام شهر را لاتين وارد کنيد</td></tr>',
 	usage = {"weather (city) : وضعيت آب و هوا"},
 	patterns = {"^[!/]([Ww]eather) (.*)$"},
 	run = run,
