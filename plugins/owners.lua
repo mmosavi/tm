@@ -281,7 +281,7 @@ local function show_super_group_settings(msg, data, target)
 		end
 	end
     local settings = data[tostring(target)]['settings']
-    local text = "تنظیمات گروه: "..target..":\nممنوعیت لینک: "..settings.lock_link.."\nLock flood: "..settings.flood.."\nLock spam: "..settings.lock_spam.."\nLock Arabic: "..settings.lock_arabic.."\nLock Member: "..settings.lock_member.."\nLock RTL: "..settings.lock_rtl.."\nLock sticker: "..settings.lock_sticker.."\nPublic: "..settings.public.."\nStrict settings: "..settings.strict
+    local text = "تنظیمات گروه: "..target..":\nممنوعیت لینک: "..settings.lock_link.."\nفعال بودن حساسیت پیام: "..settings.flood.."\nمحافظت در برابر اسپمر ها: "..settings.lock_spam.."\nممنوع بودن واژه های فارسی و عربی: "..settings.lock_arabic.."\nقفل بودن اعضا: "..settings.lock_member.."\nقفل بودن راست به چپ (RTL): "..settings.lock_rtl.."\nارسال استیکر ممنوع است: "..settings.lock_sticker.."\nعمومی بودن: "..settings.public.."\nStrict settings: "..settings.strict
     return text
 end
 
@@ -290,7 +290,7 @@ local function set_rules(target, rules)
   local data_cat = 'rules'
   data[tostring(target)][data_cat] = rules
   save_data(_config.moderation.data, data)
-  return 'Set group rules to:\n'..rules
+  return 'متن زیر برای قوانین گروه تنظیم شد:\n'..rules
 end
 
 local function set_description(target, about)
@@ -298,7 +298,7 @@ local function set_description(target, about)
   local data_cat = 'description'
   data[tostring(target)][data_cat] = about
   save_data(_config.moderation.data, data)
-  return 'Set group description to:\n'..about
+  return 'متن زیر به عنوان توضیحات گروه تنظیم شد:\n'..about
 end
 
 local function run(msg, matches)
@@ -311,12 +311,12 @@ local function run(msg, matches)
     if matches[2] == 'ban' then
       local chat_id = matches[1]
       if not is_owner2(msg.from.id, chat_id) then
-        return "You are not the owner of this group"
+        return "شما صاحب این گروه نیستید!"
       end
       if tonumber(matches[3]) == tonumber(our_id) then return false end
       local user_id = matches[3]
       if tonumber(matches[3]) == tonumber(msg.from.id) then 
-        return "You can't ban yourself"
+        return "You can't unban yourself"
       end
       ban_user(matches[3], matches[1])
       local name = user_print_name(msg.from)
@@ -328,7 +328,7 @@ local function run(msg, matches)
     if tonumber(matches[3]) == tonumber(our_id) then return false end
       local chat_id = matches[1]
       if not is_owner2(msg.from.id, chat_id) then
-        return "You are not the owner of this group"
+        return "شما صاحب این گروه نیستید!"
       end
       local user_id = matches[3]
       if tonumber(matches[3]) == tonumber(msg.from.id) then 
@@ -337,13 +337,13 @@ local function run(msg, matches)
       local hash =  'banned:'..matches[1]
       redis:srem(hash, user_id)
       savelog(matches[1], name.." ["..msg.from.id.."] unbanned user ".. matches[3])
-      return 'User '..user_id..' unbanned'
+      return 'کاربر '..user_id..' از مسدودیت خارج شد'
     end
 	
     if matches[2] == 'kick' then
       local chat_id = matches[1]
       if not is_owner2(msg.from.id, chat_id) then
-        return "You are not the owner of this group"
+        return "شما صاحب این گروه نیستید!"
       end
       if tonumber(matches[3]) == tonumber(our_id) then return false end
       local user_id = matches[3]
@@ -358,7 +358,7 @@ local function run(msg, matches)
     if matches[2] == 'clean' then
       if matches[3] == 'modlist' then
         if not is_owner2(msg.from.id, chat_id) then
-          return "You are not the owner of this group"
+          return "شما صاحب این گروه نیستید!"
         end
         for k,v in pairs(data[tostring(matches[1])]['moderators']) do
           data[tostring(matches[1])]['moderators'][tostring(k)] = nil
@@ -368,7 +368,7 @@ local function run(msg, matches)
       end
       if matches[3] == 'rules' then
         if not is_owner2(msg.from.id, chat_id) then
-          return "You are not the owner of this group"
+          return "شما صاحب این گروه نیستید!"
         end
         local data_cat = 'rules'
         data[tostring(matches[1])][data_cat] = nil
@@ -377,40 +377,40 @@ local function run(msg, matches)
       end
       if matches[3] == 'about' then
         if not is_owner2(msg.from.id, chat_id) then
-          return "You are not the owner of this group"
+          return "شما صاحب این گروه نیستید!"
         end
         local data_cat = 'description'
         data[tostring(matches[1])][data_cat] = nil
         save_data(_config.moderation.data, data)
         savelog(matches[1], name.." ["..msg.from.id.."] cleaned about")
 		channel_set_about(receiver, about_text, ok_cb, false)
-		return "About has been cleaned"
+		return "توضیحات گروه پاکسازی شد"
       end
 	  	if matches[3] == 'mutelist' then
 			chat_id = string.match(matches[1], '^%d+$')
 			local hash =  'mute_user:'..chat_id
 			redis:del(hash)
-			return "Mutelist Cleaned"
+			return "لیست موارد بی صدا پاک سازی شد"
 		end
     end
 
     if matches[2] == "setflood" then
       if not is_owner2(msg.from.id, chat_id) then
-        return "You are not the owner of this group"
+        return "شما صاحب این گروه نیستید!"
       end
       if tonumber(matches[3]) < 5 or tonumber(matches[3]) > 20 then
-        return "Wrong number,range is [5-20]"
+        return "عدد نادرست است؛ لطفا عددی بین [5 - 20] وارد کنید"
       end
       local flood_max = matches[3]
       data[tostring(matches[1])]['settings']['flood_msg_max'] = flood_max
       save_data(_config.moderation.data, data)
       savelog(matches[1], name.." ["..msg.from.id.."] set flood to ["..matches[3].."]")
-      return 'Group flood has been set to '..matches[3]
+      return 'حساسیت تنظیم شد روی: '..matches[3]
     end
 	
     if matches[2] == 'lock' then
       if not is_owner2(msg.from.id, chat_id) then
-        return "You are not the owner of this group"
+        return "شما صاحب این گروه نیستید!"
       end
       local target = matches[1]
 	  local group_type = data[tostring(matches[1])]['group_type']
@@ -447,7 +447,7 @@ local function run(msg, matches)
 	
     if matches[2] == 'unlock' then
       if not is_owner2(msg.from.id, chat_id) then
-        return "You are not the owner of this group"
+        return "شما صاحب این گروه نیستید!"
       end
       local target = matches[1]
 	  local group_type = data[tostring(matches[1])]['group_type']
@@ -493,12 +493,12 @@ local function run(msg, matches)
       if matches[3] == 'link' then
 	   local group_type = data[tostring(matches[1])]['group_type']
         if not is_owner2(msg.from.id, chat_id) then
-          return "You are not the owner of this group"
+          return "شما صاحب این گروه نیستید!"
         end
         local function callback_grouplink (extra , success, result)
 			local receiver = 'chat#id'..matches[1]
 		    if success == 0 then
-				send_large_msg(receiver, '*Error: Failed to retrieve link* \nReason: Not creator.')
+				send_large_msg(receiver, '*خطا: ساخت مجدد لینک امکان پذیر نبود* \nدلیل: من سازنده گروه نیستم!')
 		    end
 				data[tostring(matches[1])]['settings']['set_link'] = result
 				save_data(_config.moderation.data, data)
@@ -511,11 +511,11 @@ local function run(msg, matches)
 			if success == 0 then
 				data[tostring(matches[1])]['settings']['set_link'] = nil
 				save_data(_config.moderation.data, data)
-				return send_large_msg(user, '*Error: Failed to retrieve link* \nReason: Not creator.\n\nIf you have the link, please use /setlink to set it')
+				return send_large_msg(user, '*خطا: ساخت مجدد لینک امکان پذیر نبود* \nدلیل: من سازنده گروه نیستم!\n\nاگر شما لینک جدید را دارید، لطفا از دستور /setlink برای تنظیم آن استفاده کنید')
 			else
 				data[tostring(matches[1])]['settings']['set_link'] = result
 				save_data(_config.moderation.data, data)
-				return send_large_msg(user, "Created a new link")
+				return send_large_msg(user, "لینک جدید ساخته شد")
 			end	
 		end
 		if group_type == "Group" then
@@ -535,20 +535,20 @@ local function run(msg, matches)
     if matches[2] == 'get' then 
       if matches[3] == 'link' then
         if not is_owner2(msg.from.id, chat_id) then
-          return "You are not the owner of this group"
+          return "شما صاحب این گروه نیستید!"
         end
         local group_link = data[tostring(matches[1])]['settings']['set_link']
         if not group_link then 
-          return "Create a link using /newlink first !"
+          return "لطفا برای ساخت لینک ابتدا از دستور /newlink استفاده کنید!"
         end
         savelog(matches[1], name.." ["..msg.from.id.."] requested group link ["..group_link.."]")
-        return "Group link:\n"..group_link
+        return "لینک گروه:\n"..group_link
       end
     end
 	
     if matches[1] == 'changeabout' and matches[2] then
 		if not is_owner2(msg.from.id, matches[2]) then
-          return "You are not the owner of this group"
+          return "شما صاحب این گروه نیستید!"
         end
 		local group_type = data[tostring(matches[2])]['group_type']
 		if group_type == "Group" or group_type == "Realm" then
@@ -566,13 +566,13 @@ local function run(msg, matches)
 			data[tostring(target)][data_cat] = about_text
 			save_data(_config.moderation.data, data)
 			savelog(matches[2], name.." ["..msg.from.id.."] has changed SuperGroup description to ["..matches[3].."]")
-			return "Description has been set for ["..matches[2]..']'
+			return "توضیحات تنظیم شد برای: ["..matches[2]..']'
 		end
     end
 	
 	if matches[1] == 'viewsettings' and data[tostring(matches[2])]['settings'] then
 	    if not is_owner2(msg.from.id, matches[2]) then
-          return "You are not the owner of this group"
+          return "شما صاحب این گروه نیستید!"
         end
 		local target = matches[2]
 		local group_type = data[tostring(matches[2])]['group_type']
