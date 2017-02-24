@@ -103,22 +103,22 @@ end
 local function lock_group_links(msg, data, target)
   local group_link_lock = data[tostring(target)]['settings']['lock_link']
   if group_link_lock == 'yes' then
-    return 'Link posting is already locked'
+    return 'ارسال لینک ممنوع شد و در صورت مشاهده حذف می شود'
   else
     data[tostring(target)]['settings']['lock_link'] = 'yes'
     save_data(_config.moderation.data, data)
-    return 'Link posting has been locked'
+    return 'ارسال لینک ممنوع شد و در صورت مشاهده حذف می شود'
   end
 end
 
 local function unlock_group_links(msg, data, target)
   local group_link_lock = data[tostring(target)]['settings']['lock_link']
   if group_link_lock == 'no' then
-    return 'Link posting is not locked'
+    return 'ارسال لینک مجاز شد'
   else
     data[tostring(target)]['settings']['lock_link'] = 'no'
     save_data(_config.moderation.data, data)
-    return 'Link posting has been unlocked'
+    return 'ارسال لینک مجاز شد'
   end
 end
 
@@ -126,11 +126,11 @@ local function lock_group_spam(msg, data, target)
 
   local group_spam_lock = data[tostring(target)]['settings']['lock_spam']
   if group_spam_lock == 'yes' then
-    return 'SuperGroup spam is already locked'
+    return 'اکنون گروه در مقابل اسپمر ها محافظت می شود'
   else
     data[tostring(target)]['settings']['lock_spam'] = 'yes'
     save_data(_config.moderation.data, data)
-    return 'SuperGroup spam has been locked'
+    return 'اکنون گروه در مقابل اسپمر ها محافظت می شود'
   end
 end
 
@@ -138,11 +138,11 @@ local function unlock_group_spam(msg, data, target)
 
   local group_spam_lock = data[tostring(target)]['settings']['lock_spam']
   if group_spam_lock == 'no' then
-    return 'SuperGroup spam is not locked'
+    return 'هشدار: محافظت در برابر اسپمر ها غیرفعال شد'
   else
     data[tostring(target)]['settings']['lock_spam'] = 'no'
     save_data(_config.moderation.data, data)
-    return 'SuperGroup spam has been unlocked'
+    return 'هشدار: محافظت در برابر اسپمر ها غیرفعال شد'
   end
 end
 
@@ -150,11 +150,11 @@ local function lock_group_sticker(msg, data, target)
 
   local group_sticker_lock = data[tostring(target)]['settings']['lock_sticker']
   if group_sticker_lock == 'yes' then
-    return 'Sticker posting is already locked'
+    return 'ارسال استیکر ممنوع شد و در صورت مشاهده حذف می شود'
   else
     data[tostring(target)]['settings']['lock_sticker'] = 'yes'
     save_data(_config.moderation.data, data)
-    return 'Sticker posting has been locked'
+    return 'ارسال استیکر ممنوع شد و در صورت مشاهده حذف می شود'
   end
 end
 
@@ -162,11 +162,11 @@ local function unlock_group_sticker(msg, data, target)
 
   local group_sticker_lock = data[tostring(target)]['settings']['lock_sticker']
   if group_sticker_lock == 'no' then
-    return 'Sticker posting is already unlocked'
+    return 'ارسال استیکر مجاز شد'
   else
     data[tostring(target)]['settings']['lock_sticker'] = 'no'
     save_data(_config.moderation.data, data)
-    return 'Sticker posting has been unlocked'
+    return 'ارسال استیکر مجاز شد'
   end
 end
 
@@ -176,11 +176,11 @@ local function lock_group_contacts(msg, data, target)
   end
   local group_rtl_lock = data[tostring(target)]['settings']['lock_contacts']
   if group_contacts_lock == 'yes' then
-    return 'Contact posting is already locked'
+    return 'اشتراک گزاری مخاطبین ممنوع شد و در صورت مشاهده حذف می شود'
   else
     data[tostring(target)]['settings']['lock_contacts'] = 'yes'
     save_data(_config.moderation.data, data)
-    return 'Contact posting has been locked'
+    return 'اشتراک گزاری مخاطبین ممنوع شد و در صورت مشاهده حذف می شود'
   end
 end
 
@@ -190,11 +190,11 @@ local function unlock_group_contacts(msg, data, target)
   end
   local group_contacts_lock = data[tostring(target)]['settings']['lock_contacts']
   if group_contacts_lock == 'no' then
-    return 'Contact posting is already unlocked'
+    return 'اشتراک گزاری مخاطبین مجاز شد'
   else
     data[tostring(target)]['settings']['lock_contacts'] = 'no'
     save_data(_config.moderation.data, data)
-    return 'Contact posting has been unlocked'
+    return 'اشتراک گزاری مخاطبین مجاز شد'
   end
 end
 
@@ -281,7 +281,7 @@ local function show_super_group_settings(msg, data, target)
 		end
 	end
     local settings = data[tostring(target)]['settings']
-    local text = "SuperGroup settings for "..target..":\nLock links : "..settings.lock_link.."\nLock flood: "..settings.flood.."\nLock spam: "..settings.lock_spam.."\nLock Arabic: "..settings.lock_arabic.."\nLock Member: "..settings.lock_member.."\nLock RTL: "..settings.lock_rtl.."\nLock sticker: "..settings.lock_sticker.."\nPublic: "..settings.public.."\nStrict settings: "..settings.strict
+    local text = "تنظیمات گروه: "..target..":\nممنوعیت لینک: "..settings.lock_link.."\nLock flood: "..settings.flood.."\nLock spam: "..settings.lock_spam.."\nLock Arabic: "..settings.lock_arabic.."\nLock Member: "..settings.lock_member.."\nLock RTL: "..settings.lock_rtl.."\nLock sticker: "..settings.lock_sticker.."\nPublic: "..settings.public.."\nStrict settings: "..settings.strict
     return text
 end
 
