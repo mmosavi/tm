@@ -142,9 +142,7 @@ return {
   patterns = {
     "^[#!/]([Ss]tats)$",
     "^[#!/]([Ss]tatslist)$",
-    "^[#!/]([Ss]tats) (group) (%d+)",
-    "^[#!/]([Ss]tats) (teleseed)",
-	"^[#!/]([Tt]eleseed)"
+    "^[#!/]([Ss]tats) (group) (%d+)"
     }, 
   run = run
 }
