@@ -22,7 +22,7 @@ local service = msg.service
 		else
 			from_username = "@[none]"
 		end
-		text = "User From Info:\n\nID: "..from_id.."\nFirst: "..from_first_name.."\nLast: "..from_last_name.."\nUsername: "..from_username
+		text = "اطلاعات کاربر:\n\nID: "..from_id.."\nنام: "..from_first_name.."\nنام خانوادگی: "..from_last_name.."\nنام کاربری: "..from_username
 		send_large_msg(user, text)
 	end
 	return msg
@@ -33,7 +33,7 @@ local function chat_list(msg)
 	local data = load_data(_config.moderation.data)
     local groups = 'groups'
     if not data[tostring(groups)] then
-        return 'No groups at the moment'
+        return 'در حال حاظر هیچ گروهی وجود ندارد'
     end
     local message = 'List of Groups:\n*Use #join (ID) to join*\n\n'
     for k,v in pairsByKeys(data[tostring(groups)]) do
@@ -95,7 +95,7 @@ if to == 'user' or service or is_admin1(msg) and to == "chat" or to == "channel"
 		local target = 1041751030
 		local long_id = data[tostring(target)]['long_id']
 		if is_banned(msg.from.id, tostring(target)) then
-			return 'You are banned.'
+			return 'شما مسدود شدید!'
 		end
 		if data[tostring(target)]['settings']['lock_member'] == 'yes' and not is_owner2(msg.from.id, tostring(target)) then
 			return 'Group is private.'
@@ -116,10 +116,10 @@ if to == 'user' or service or is_admin1(msg) and to == "chat" or to == "channel"
 		local target = 1017700355
 		local long_id = data[tostring(target)]['long_id']
 		if is_banned(msg.from.id, tostring(target)) then
-			return 'You are banned.'
+			return 'شما مسدود شدید'
 		end
 		if data[tostring(target)]['settings']['lock_member'] == 'yes' and not is_owner2(msg.from.id, '36088606') then
-			return 'Group is private.'
+			return 'این گروه خصوصی است'
 		end
 		if is_admin1(msg) then
 			user_type = 'admin'
@@ -135,7 +135,7 @@ if to == 'user' or service or is_admin1(msg) and to == "chat" or to == "channel"
 	elseif string.match(matches[2], '^%d+$') then
 		local long_id = tostring(data[tostring(matches[2])]['long_id'])
 		if not data[tostring(matches[2])] then
-			return "Chat not found."
+			return "چت پیدا نشد"
 		end
 		group_name = data[tostring(matches[2])]['settings']['set_name']
 		if is_admin1(msg) then
@@ -157,10 +157,10 @@ if to == 'user' or service or is_admin1(msg) and to == "chat" or to == "channel"
 			channel_set_mod(channel, user, ok_cb, false)
 		end
         if is_banned(msg.from.id, matches[2]) then
-			return 'You are banned.'
+			return 'شما مسدود شدید'
 		end
 		if data[tostring(matches[2])]['settings']['lock_member'] == 'yes' and not is_owner2(msg.from.id, matches[2]) then
-			return 'Group is private.'
+			return 'این گروه خصوصی است'
 		end
 			if not is_support(msg.from.id) and not is_admin1(msg) then
 				user_type = "regular"
@@ -208,7 +208,7 @@ if to == 'user' or service or is_admin1(msg) and to == "chat" or to == "channel"
 
 	if matches[1] == 'help' and msg.to.type == 'user' or matches[1] == 'pmhelp' and is_admin1(msg) and msg.to.type ~= 'user' then
       	savelog(msg.to.id, name_log.." ["..msg.from.id.."] used pm help")
-		text = "Welcome to TeleSeed!\n\nTo get a list of TeleSeed groups use /chats or /chatlist for a document list of chats.\n\nTo get a new TeleSeed group, contact a support group:\n\nFor English support, use: /join English support\n\nFor Persian support, use: /join Persian support\n\nFor more information, check out our channels:\n\n@TeleseedCH [English]\n@Iranseed [Persian]\n\nThanks for using @TeleSeed!"
+		text = "به ربات انتی اسپمر SPM خوش آمدید/nبرای ارتباط با صاحب این ربات به آیدی زیر پیام بدهد/n@storent/nبا تشکر از توجه شما"
      	return text
     end
 
