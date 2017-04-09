@@ -12,7 +12,7 @@ if matches[1] == 'delwlc' and not matches[2] and is_owner(msg) then
 end
 
 local url , res = http.request('http://api.gpmod.ir/time/')
-if res ~= 200 then return "ارتباط قطع شده😢" end
+if res ~= 200 then return "" end
 local jdat = json:decode(url)
 
 if matches[1] == 'setwlc' and is_owner(msg) then
